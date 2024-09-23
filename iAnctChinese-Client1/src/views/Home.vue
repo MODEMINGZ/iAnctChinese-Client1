@@ -1,27 +1,23 @@
 <template>
-    <el-menu :default-active="activeIndex2" mode="horizontal" background-color="#545c64" text-color="#fff"
-        active-text-color="#ffd04b" @select="handleSelect">
-        <el-menu-item index="1" class="logo-item">iAnctChinese 古汉语智能标注平台</el-menu-item>
+    <el-menu :default-active="activeIndex.toString()" mode="horizontal" background-color="#545c64" text-color="#fff"
+        active-text-color="#ffd04b" @select="handleMenuSelect">
+        <el-menu-item index="1" class="logo-item">iAnctChinese-古汉语智能标注平台</el-menu-item>
         <el-menu-item index="2"><el-icon>
-                <UserFilled />
-            </el-icon>用户</el-menu-item>
-        <el-menu-item index="3"><el-icon>
                 <IconMenu />
-            </el-icon>功能</el-menu-item>
-        <el-menu-item index="4"><el-icon>
+            </el-icon><span>功能</span></el-menu-item>
+        <el-menu-item index="3"><el-icon>
                 <Promotion />
-            </el-icon>特色</el-menu-item>
-        <el-menu-item index="5">
-            <el-icon>
+            </el-icon><span>特色</span></el-menu-item>
+        <el-menu-item index="4"> <el-icon>
                 <InfoFilled />
-            </el-icon>
-            关于</el-menu-item>
+            </el-icon><span>关于</span></el-menu-item>
     </el-menu>
     <div class="content">
-        <el-carousel trigger="click" arrow="always" indicator-position="outside" class="carousel" autoplay="false">
+        <el-carousel trigger="click" arrow="always" indicator-position="outside" :autoplay="false" ref="carousel"
+            class="carousel" @change="handleCarouselChange">
             <el-carousel-item class="el-carousel-item">
                 <div class="textbox">
-                    <h1>iAnctChinese 古汉语智能标注平台</h1>
+                    <h1>iAnctChinese-古汉语智能标注平台</h1>
                     <p class="text"> iAnctChinese 是专为古汉语设计的智能标注平台，集成了pytorch框架下的先进深度学习模型，为研究者与学者提供了一站式的古汉语文本处理解决方案。
                         平台支持对古汉语自由文本的智能化结构整理、实体标注、关系标注，并自动生成知识图谱。
                         <br>通过精巧的交互设计，iAnctChinese实现了高效的人机协作，不仅在古汉语文本上实现了高精度的实体识别与关系抽取，未来还将不断拓展，支持更多语言的处理，为数字人文研究注入新的活力。
@@ -29,11 +25,22 @@
                 </div>
             </el-carousel-item>
             <el-carousel-item>
-
+                <div class="textbox">
+                    <h1>主要功能</h1>
+                    <p class="text"> iAnctChinese 是专为古汉语设计的智能标注平台，集成了pytorch框架下的先进深度学习模型，为研究者与学者提供了一站式的古汉语文本处理解决方案。
+                        平台支持对古汉语自由文本的智能化结构整理、实体标注、关系标注，并自动生成知识图谱。
+                        <br>通过精巧的交互设计，iAnctChinese实现了高效的人机协作，不仅在古汉语文本上实现了高精度的实体识别与关系抽取，未来还将不断拓展，支持更多语言的处理，为数字人文研究注入新的活力。
+                    </p>
+                </div>
             </el-carousel-item>
             <el-carousel-item>
-            </el-carousel-item>
-            <el-carousel-item>
+                <div class="textbox">
+                    <h1>主要特色</h1>
+                    <p class="text"> iAnctChinese 是专为古汉语设计的智能标注平台，集成了pytorch框架下的先进深度学习模型，为研究者与学者提供了一站式的古汉语文本处理解决方案。
+                        平台支持对古汉语自由文本的智能化结构整理、实体标注、关系标注，并自动生成知识图谱。
+                        <br>通过精巧的交互设计，iAnctChinese实现了高效的人机协作，不仅在古汉语文本上实现了高精度的实体识别与关系抽取，未来还将不断拓展，支持更多语言的处理，为数字人文研究注入新的活力。
+                    </p>
+                </div>
             </el-carousel-item>
         </el-carousel>
         <div class="btnbox">
@@ -45,17 +52,30 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import {
-    UserFilled,
     Promotion,
-    InfoFilled,
     Menu as IconMenu,
+    InfoFilled
 } from '@element-plus/icons-vue'
-const activeIndex2 = ref('1')
-const handleSelect = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-}
+
+//菜单项和走马灯联动
+const activeIndex = ref(1);
+const carousel = ref(null);
+const handleMenuSelect = (index: string) => {
+    const carouselIndex = parseInt(index) - 1;
+    if (carouselIndex > 2) {
+        return;
+    }
+    activeIndex.value = carouselIndex;
+    if (carousel.value) {
+        carousel.value.setActiveItem(carouselIndex);
+    }
+};
+
+const handleCarouselChange = (index: number) => {
+    activeIndex.value = index + 1; // 更新activeIndex的值以匹配走马灯的索引
+};
 </script>
 <style scoped>
 .el-carousel-item {
@@ -84,14 +104,14 @@ const handleSelect = (key: string, keyPath: string[]) => {
     width: 300px;
     padding: 5px;
     background-color: rgba(255, 255, 255, 0.7);
-    margin-top: 20px;
+    margin-top: 10px;
     /* margin-right: 4%; */
     float: right;
 }
 
 .textbox {
     /* width: 90%; */
-    padding: 20px;
+    padding: 30px;
     margin-left: 20px;
     margin-right: 20px;
     background-color: rgba(255, 255, 255, 0.7);

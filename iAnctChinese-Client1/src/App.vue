@@ -2,7 +2,7 @@
     <div class="app-container">
         <el-menu active-text-color="#ffd04b" background-color="#545c64" text-color="#fff" :collapse="isCollapse"
             :default-active="getActiveIndex()">
-            <el-menu-item index="1" @click="headClick">
+            <el-menu-item index="1" @click="headClick" class="bar">
                 <el-icon v-if="isCollapse">
                     <ArrowRightBold />
                 </el-icon>
@@ -10,7 +10,7 @@
                     <ArrowLeftBold />
                 </el-icon>
             </el-menu-item>
-            <el-menu-item index="2" @click="navigateTo('/home')">
+            <el-menu-item index="2" @click="navigateTo('/home')" class="bar">
                 <el-icon>
                     <HomeFilled />
                 </el-icon>
@@ -28,11 +28,23 @@
                 </el-icon>
                 <span>文档管理</span>
             </el-menu-item>
-            <el-menu-item index="5" @click="navigateTo('/editor')">
+            <el-menu-item index="5" @click="navigateTo('/editor')" class="bar">
                 <el-icon>
-                    <setting />
+                    <Edit />
                 </el-icon>
                 <span>工作台</span>
+            </el-menu-item>
+            <el-menu-item index="6" @click="navigateTo('/user')" disabled>
+                <el-icon>
+                    <UserFilled />
+                </el-icon>
+                <span>用户</span>
+            </el-menu-item>
+            <el-menu-item index="7" @click="navigateTo('/about')" class="bar">
+                <el-icon>
+                    <InfoFilled />
+                </el-icon>
+                <span>关于</span>
             </el-menu-item>
         </el-menu>
         <!-- 侧边栏显示时间 -->
@@ -50,16 +62,18 @@ import { ref } from 'vue'
 import {
     Document,
     HomeFilled,
-    Setting,
+    Edit,
     FolderOpened,
-    ArrowLeftBold, ArrowRightBold
+    ArrowLeftBold, ArrowRightBold,
+    InfoFilled,
+    UserFilled
 } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
 
 // 处理菜单
-let isCollapse = ref(false);
+const isCollapse = ref(false);
 
 const headClick = () => {
     isCollapse.value = !isCollapse.value;
@@ -77,6 +91,8 @@ const getActiveIndex = () => {
             return '4';
         case '/editor':
             return '5';
+        case '/user':
+            return '6';
         default:
             return '2';
     }
@@ -85,6 +101,10 @@ const getActiveIndex = () => {
 //
 </script>
 <style scoped>
+.bar {
+    border-bottom: 1px solid #ffd04b;
+}
+
 .app-container {
     display: flex;
     flex-direction: row;
