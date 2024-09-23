@@ -16,18 +16,18 @@
                 </div>
             </div>
             <el-table :data="tableData" class="mtable" stripe height="600" @selection-change="handleSelectionChange">
-                <el-table-column type="selection" :selectable='selectable' width="55" />
+                <el-table-column type="selection" :selectable='selectable' width="50" />
                 <el-table-column prop="name" label="项目名" width="120" show-overflow-tooltip />
                 <el-table-column prop="create_time" label="创建时间" width="150" />
                 <el-table-column prop="update_time" label="更新时间" width="150" />
                 <el-table-column prop="discription" label="项目描述" width="250" show-overflow-tooltip />
                 <el-table-column fixed="right" label="选项" min-width="120">
                     <template #default="scope">
-                        <el-button type="primary" size="small">
+                        <el-button type="primary" size="small" @click.prevent="openRow(scope.$index)">
                             打开项目
                         </el-button>
                         <el-button type="success" size="small" @click.prevent="editRow(scope.$index)">
-                            编辑项目
+                            项目详情
                         </el-button>
                         <el-button type="danger" size="small" @click.prevent="deleteRow(scope.$index)">
                             删除项目
@@ -58,6 +58,9 @@
     </el-dialog>
     <el-dialog v-model="e_dialogFormVisible" title="编辑项目" width="600">
         <el-form :model="e_form">
+            <el-form-item label="ID" :label-width="formLabelWidth">
+                <el-input v-model="e_form.id" autocomplete="off" disabled />
+            </el-form-item>
             <el-form-item label="项目名" :label-width="formLabelWidth">
                 <el-input v-model="e_form.name" autocomplete="off" autosize type="textarea" placeholder="(必填)" />
             </el-form-item>
@@ -91,12 +94,24 @@ import {
 import { ref, reactive } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+//打开项目
+const openRow = (index: number) => {
+    const item = tableData.value[index];
+    const m_id = parseInt(item.id)
+    router.push(`/project_info/${m_id}`);
+}
+
 //编辑项目
 const e_dialogFormVisible = ref(false);
 const editingIndex = ref(-1);
 const editRow = (index: number) => {
     editingIndex.value = index;
     const item = tableData.value[index];
+    e_form.id = item.id;
     e_form.name = item.name;
     e_form.discription = item.discription;
     e_form.create_time = item.create_time;
@@ -171,11 +186,13 @@ const form = reactive({
     update_time: '',
 })
 const e_form = reactive({
+    id: '',
     name: '',
     discription: '',
     create_time: '',
     update_time: '',
 })
+//增加醒目
 const createForm = () => {
     if (!form.name) {
         ElMessage({
@@ -186,11 +203,13 @@ const createForm = () => {
     }
     dialogFormVisible.value = false
     now.setDate(now.getDate() + 1)
+    curId.value++
     tableData.value.push({
         create_time: dayjs(now).format('YYYY-MM-DD HH:mm'),
         name: form.name,
         discription: form.discription,
-        update_time: ''
+        update_time: '',
+        id: curId.value.toString(),
     })
     //清空
     form.name = ''
@@ -206,18 +225,19 @@ const createForm_cancle = () => {
     form.discription = ''
 }
 
-//表格
+//表格【等后端
 const now = new Date()
 const tableData = ref([
     {
-        create_time: '2016-05-01',
+        id: '1',
+        create_time: '2024-09-24 19:50',
         name: 'Tom',
-        update_time: '2016-05-03',
-        discription: 'Los Angeles',
+        update_time: '2024-09-25 20:50',
+        discription: 'aaaa',
     },
 ])
 
-
+const curId = ref(1)
 
 </script>
 

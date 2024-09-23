@@ -22,12 +22,6 @@
                 </el-icon>
                 <span>项目管理</span>
             </el-menu-item>
-            <el-menu-item index="4" @click="navigateTo('/document')">
-                <el-icon>
-                    <document />
-                </el-icon>
-                <span>文档管理</span>
-            </el-menu-item>
             <el-menu-item index="5" @click="navigateTo('/editor')" class="bar">
                 <el-icon>
                     <Edit />
@@ -60,7 +54,6 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import {
-    Document,
     HomeFilled,
     Edit,
     FolderOpened,
@@ -87,8 +80,6 @@ const getActiveIndex = () => {
             return '2';
         case '/project':
             return '3';
-        case '/document':
-            return '4';
         case '/editor':
             return '5';
         case '/user':
