@@ -1,7 +1,7 @@
 <template>
     <div class="app-container">
-        <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" text-color="#fff"
-            :collapse="isCollapse" :default-active="getActiveIndex()">
+        <el-menu active-text-color="#ffd04b" background-color="#545c64" text-color="#fff" :collapse="isCollapse"
+            :default-active="getActiveIndex()">
             <el-menu-item index="1" @click="headClick">
                 <el-icon v-if="isCollapse">
                     <ArrowRightBold />
@@ -11,20 +11,28 @@
                 </el-icon>
             </el-menu-item>
             <el-menu-item index="2" @click="navigateTo('/home')">
-                <el-icon><icon-menu /></el-icon>
-                <span>首页</span>
+                <el-icon>
+                    <HomeFilled />
+                </el-icon>
+                <span class="menu-bar">首页</span>
             </el-menu-item>
             <el-menu-item index="3" @click="navigateTo('/project')">
                 <el-icon>
+                    <FolderOpened />
+                </el-icon>
+                <span>项目管理</span>
+            </el-menu-item>
+            <el-menu-item index="4" @click="navigateTo('/document')">
+                <el-icon>
                     <document />
                 </el-icon>
-                <span>Navigator Three</span>
+                <span>文档管理</span>
             </el-menu-item>
-            <el-menu-item index="4">
+            <el-menu-item index="5" @click="navigateTo('/editor')">
                 <el-icon>
                     <setting />
                 </el-icon>
-                <span>Navigator Four</span>
+                <span>工作台</span>
             </el-menu-item>
         </el-menu>
         <!-- 侧边栏显示时间 -->
@@ -41,8 +49,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import {
     Document,
-    Menu as IconMenu,
+    HomeFilled,
     Setting,
+    FolderOpened,
     ArrowLeftBold, ArrowRightBold
 } from '@element-plus/icons-vue'
 
@@ -64,6 +73,10 @@ const getActiveIndex = () => {
             return '2';
         case '/project':
             return '3';
+        case '/document':
+            return '4';
+        case '/editor':
+            return '5';
         default:
             return '2';
     }
@@ -77,6 +90,12 @@ const getActiveIndex = () => {
     flex-direction: row;
     height: 100vh;
 }
+
+.menu-bar {
+    /* padding-right: 30px; */
+    width: 100px;
+}
+
 
 .main-content {
     flex: 1;
