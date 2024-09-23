@@ -192,7 +192,7 @@ const e_form = reactive({
     create_time: '',
     update_time: '',
 })
-//增加醒目
+//增加项目
 const createForm = () => {
     if (!form.name) {
         ElMessage({
@@ -225,7 +225,7 @@ const createForm_cancle = () => {
     form.discription = ''
 }
 
-//表格【等后端
+//表单【等后端
 const now = new Date()
 const tableData = ref([
     {
@@ -235,6 +235,7 @@ const tableData = ref([
         update_time: '2024-09-25 20:50',
         discription: 'aaaa',
     },
+
 ])
 
 const curId = ref(1)
