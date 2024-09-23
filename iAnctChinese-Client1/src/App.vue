@@ -93,6 +93,8 @@ const getActiveIndex = () => {
             return '5';
         case '/user':
             return '6';
+        case '/about':
+            return '7';
         default:
             return '2';
     }

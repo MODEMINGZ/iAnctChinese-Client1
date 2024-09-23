@@ -8,7 +8,7 @@
         <el-menu-item index="3"><el-icon>
                 <Promotion />
             </el-icon><span>特色</span></el-menu-item>
-        <el-menu-item index="4"> <el-icon>
+        <el-menu-item index="4" @click="goAbout"> <el-icon>
                 <InfoFilled />
             </el-icon><span>关于</span></el-menu-item>
     </el-menu>
@@ -58,7 +58,13 @@ import {
     Menu as IconMenu,
     InfoFilled
 } from '@element-plus/icons-vue'
-
+import { useRoute, useRouter } from 'vue-router'
+//转去关于页面
+const route = useRoute()
+const router = useRouter()
+const goAbout = () => {
+    router.push('/about')
+}
 //菜单项和走马灯联动
 const activeIndex = ref(1);
 const carousel = ref(null);
@@ -76,6 +82,7 @@ const handleMenuSelect = (index: string) => {
 const handleCarouselChange = (index: number) => {
     activeIndex.value = index + 1; // 更新activeIndex的值以匹配走马灯的索引
 };
+
 </script>
 <style scoped>
 .el-carousel-item {
