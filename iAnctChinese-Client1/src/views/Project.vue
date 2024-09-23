@@ -17,12 +17,20 @@
             </div>
             <el-table :data="tableData" class="mtable" stripe height="600" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" :selectable='selectable' width="55" />
-                <el-table-column prop="name" label="项目名" width="120" />
-                <el-table-column fixed prop="date" label="创建时间" width="150" />
+                <el-table-column prop="name" label="项目名" width="120" show-overflow-tooltip />
+                <el-table-column prop="create_time" label="创建时间" width="150" />
+                <el-table-column prop="update_time" label="更新时间" width="150" />
+                <el-table-column prop="discription" label="项目描述" width="250" show-overflow-tooltip />
                 <el-table-column fixed="right" label="选项" min-width="120">
                     <template #default="scope">
-                        <el-button link type="primary" size="small" @click.prevent="deleteRow(scope.$index)">
-                            删除
+                        <el-button type="primary" size="small">
+                            打开项目
+                        </el-button>
+                        <el-button type="success" size="small" @click.prevent="editRow(scope.$index)">
+                            编辑项目
+                        </el-button>
+                        <el-button type="danger" size="small" @click.prevent="deleteRow(scope.$index)">
+                            删除项目
                         </el-button>
                     </template>
                 </el-table-column>
@@ -48,6 +56,30 @@
             </div>
         </template>
     </el-dialog>
+    <el-dialog v-model="e_dialogFormVisible" title="编辑项目" width="600">
+        <el-form :model="e_form">
+            <el-form-item label="项目名" :label-width="formLabelWidth">
+                <el-input v-model="e_form.name" autocomplete="off" autosize type="textarea" placeholder="(必填)" />
+            </el-form-item>
+            <el-form-item label="项目描述" :label-width="formLabelWidth">
+                <el-input v-model="e_form.discription" autocomplete="off" type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4 }" placeholder="(选填)" />
+            </el-form-item>
+            <el-form-item label="创建时间" :label-width="formLabelWidth">
+                <el-input :value="e_form.create_time" disabled /> <!-- 禁用创建时间输入框 -->
+            </el-form-item>
+            <el-form-item label="更新时间" :label-width="formLabelWidth">
+                <el-input :value="e_form.update_time" disabled /> <!-- 禁用更新时间输入框 -->
+            </el-form-item>
+        </el-form>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="editForm_cancle">取消</el-button>
+                <el-button type="primary" @click="editForm">确认</el-button>
+            </div>
+        </template>
+    </el-dialog>
+    <!-- ...其他代码... -->
 </template>
 
 <script setup lang="ts">
@@ -58,26 +90,74 @@ import {
 } from '@element-plus/icons-vue'
 import { ref, reactive } from 'vue'
 import dayjs from 'dayjs'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+//编辑项目
+const e_dialogFormVisible = ref(false);
+const editingIndex = ref(-1);
+const editRow = (index: number) => {
+    editingIndex.value = index;
+    const item = tableData.value[index];
+    e_form.name = item.name;
+    e_form.discription = item.discription;
+    e_form.create_time = item.create_time;
+    e_form.update_time = item.update_time;
+    e_dialogFormVisible.value = true;
+};
+
+const editForm = () => {
+    if (editingIndex.value !== -1) {
+        tableData.value[editingIndex.value].name = e_form.name;
+        tableData.value[editingIndex.value].discription = e_form.discription;
+    }
+    e_dialogFormVisible.value = false;
+    ElMessage({
+        message: '编辑成功！',
+        type: 'success',
+    });
+};
+
+const editForm_cancle = () => {
+    e_dialogFormVisible.value = false;
+    e_form.name = '';
+    e_form.discription = '';
+};
+
 //删除项目
+const deleteRow = (index: number) => {
+    ElMessageBox.confirm(
+        '确定删除该项目？',
+        'Warning',
+        {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    )
+        .then(() => {
+            tableData.value.splice(index, 1)
+            ElMessage({
+                type: 'success',
+                message: '删除成功！',
+            })
+        })
+}
 const multipleSelection = ref([]);
 const handleSelectionChange = (val: never[]) => {
     multipleSelection.value = val;
 };
 const deleteSelectedItems = () => {
-    if (multipleSelection.value.length === 0) return; // 防止没有选择任何项时触发删除
-    const idsToDelete = multipleSelection.value.map(item => tableData.value.indexOf(item)); // 获取要删除的项的索引
-    idsToDelete.sort((a, b) => b - a); // 降序排序，以便从后往前删除，避免索引变化问题
+    if (multipleSelection.value.length === 0) return;
+    const idsToDelete = multipleSelection.value.map(item => tableData.value.indexOf(item));
+    idsToDelete.sort((a, b) => b - a);
     idsToDelete.forEach(id => {
-        tableData.value.splice(id, 1); // 删除选中的行
+        tableData.value.splice(id, 1);
     });
-    multipleSelection.value = []; // 清空选中项，因为已经从表格中删除了
+    multipleSelection.value = [];
 };
 
 const selectable = (row: { id: string; }, index: any) => {
     if (row.id === "10001") {
         return false
-
     } else {
         return true
     }
@@ -87,6 +167,14 @@ const formLabelWidth = '140px'
 const form = reactive({
     name: '',
     discription: '',
+    create_time: '',
+    update_time: '',
+})
+const e_form = reactive({
+    name: '',
+    discription: '',
+    create_time: '',
+    update_time: '',
 })
 const createForm = () => {
     if (!form.name) {
@@ -99,10 +187,12 @@ const createForm = () => {
     dialogFormVisible.value = false
     now.setDate(now.getDate() + 1)
     tableData.value.push({
-        date: dayjs(now).format('YYYY-MM-DD'),
+        create_time: dayjs(now).format('YYYY-MM-DD HH:mm'),
         name: form.name,
         discription: form.discription,
+        update_time: ''
     })
+    //清空
     form.name = ''
     form.discription = ''
     ElMessage({
@@ -118,18 +208,16 @@ const createForm_cancle = () => {
 
 //表格
 const now = new Date()
-
 const tableData = ref([
     {
-        date: '2016-05-01',
+        create_time: '2016-05-01',
         name: 'Tom',
+        update_time: '2016-05-03',
         discription: 'Los Angeles',
     },
 ])
 
-const deleteRow = (index: number) => {
-    tableData.value.splice(index, 1)
-}
+
 
 </script>
 
