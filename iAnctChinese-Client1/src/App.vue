@@ -64,8 +64,7 @@ import { userInfoStore } from '@/stores/user'
 const store = userInfoStore()
 const route = useRoute()
 const router = useRouter()
-//login
-console.log(store.isLogin);
+
 //editor/:id
 watchEffect(() => {
     if (route.path.startsWith('/editor/')) {
@@ -74,7 +73,7 @@ watchEffect(() => {
 })
 
 // 处理菜单
-const isCollapse = ref(false);
+const isCollapse = ref(true);
 
 const headClick = () => {
     isCollapse.value = !isCollapse.value;

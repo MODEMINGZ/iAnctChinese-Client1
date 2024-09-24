@@ -2,6 +2,13 @@
     <div class="container">
         <div class="header">
             <div class="logo-item">iAnctChinese-古汉语智能标注平台</div>
+            <div class="func">
+                <el-button type="primary">结构标注</el-button>
+                <el-button type="primary">实体标注</el-button>
+                <el-button type="primary">关系标注</el-button>
+                <el-button type="primary">知识图谱</el-button>
+                <el-button type="primary">导出数据</el-button>
+            </div>
         </div>
         <div class="content">
             <div class="left-part">
@@ -17,7 +24,10 @@
             <div class="editor-part">
                 <div class="part-header">
                 </div>
-                <div class="part-main"></div>
+                <div class="part-main">
+                    <el-input class="m-input" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }"
+                        v-model="doc_data.doc_content" placeholder="文档内容"></el-input>
+                </div>
             </div>
             <div class="right-part">
                 <div class="part-header">
@@ -35,17 +45,32 @@
                     <div class="info-item-header">
                         项目名
                     </div>
+                    <div class='info-item-content'>
+                        {{ doc_data.pro_name }}
+                    </div>
                     <div class="info-item-header">
                         项目描述
+                    </div>
+                    <div class='info-item-content'>
+                        {{ doc_data.pro_discription }}
                     </div>
                     <div class="info-item-header">
                         文档ID
                     </div>
+                    <div class='info-item-content'>
+                        {{ doc_data.doc_id }}
+                    </div>
                     <div class="info-item-header">
                         文档名
                     </div>
+                    <div class='info-item-content'>
+                        {{ doc_data.doc_name }}
+                    </div>
                     <div class="info-item-header">
                         文档描述
+                    </div>
+                    <div class='info-item-content'>
+                        {{ doc_data.doc_discription }}
                     </div>
                 </div>
             </div>
@@ -68,20 +93,27 @@ const doc_data = ref({
     pro_id: '1',
     pro_name: 'Tom',
     pro_discription: 'aaaa',
-    docId: '15',
+    doc_id: '15',
     doc_create_time: '2024-11-24 19:50',
     doc_name: 'Tom‘s doc',
     doc_update_time: '2024-11-25 20:50',
-    doc_discription: 'bbbb',
-
+    doc_discription: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    doc_content: ''
 })
 </script>
 
 <style scoped>
+.func {
+    margin-right: 20px;
+}
+
 .info-item-content {
+    margin-left: 5px;
     margin-bottom: 5px;
     font-weight: 700;
     min-height: 50px;
+    font-size: 14px;
+    color: #838383;
 
 }
 
@@ -94,7 +126,6 @@ const doc_data = ref({
 .part-main {
     height: calc(100% - 60px);
     margin: 10px;
-    overflow-y: auto;
     /* background-color: aqua; */
 }
 

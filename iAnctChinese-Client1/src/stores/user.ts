@@ -15,9 +15,9 @@ export const userInfoStore = defineStore('userInfo', {
             lastLoginTime: null
         }
     }),
-    // persist: {
-    //     enabled: true
-    // },
+    persist: {
+        enabled: true
+    },
     actions: {
         login(userInfo: UserInfo) {
             this.isLogin = true;
