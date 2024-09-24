@@ -208,7 +208,7 @@ const createForm = () => {
         create_time: dayjs(now).format('YYYY-MM-DD HH:mm'),
         name: form.name,
         discription: form.discription,
-        update_time: '',
+        update_time: dayjs(now).format('YYYY-MM-DD HH:mm'),
         id: curId.value.toString(),
     })
     //清空

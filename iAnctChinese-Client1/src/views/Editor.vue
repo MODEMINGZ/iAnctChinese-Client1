@@ -1,6 +1,11 @@
 <template>
-    <div>
-
+    <div class="container">
+        <div class="header"></div>
+        <div class="content">
+            <div class="left-part"></div>
+            <div class="editor-part"></div>
+            <div class="right-part"></div>
+        </div>
     </div>
 </template>
 
@@ -32,4 +37,50 @@ const doc_data = ref({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.editor-part {
+    background-color: white;
+    height: 100%;
+    flex: 1;
+    min-width: 100px;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.left-part {
+    margin-left: 5px;
+    background-color: white;
+    border-radius: 5px;
+    width: 320px;
+    height: 100%;
+}
+
+.right-part {
+    background-color: white;
+    border-radius: 5px;
+    width: 200px;
+    height: 100%;
+    margin-right: 5px;
+}
+
+.content {
+    margin-top: 10px;
+    height: 88%;
+    display: flex;
+
+}
+
+.header {
+    background-color: white;
+    height: 9%;
+    /* border-radius: 10px; */
+    width: 100%;
+}
+
+.container {
+    background-color: #f6f6f6;
+    height: 100vh;
+    /* padding: 10px; */
+}
+</style>

@@ -27,8 +27,13 @@ const router = createRouter({
       component: () => import('../views/Project_info.vue'),
     },
     {
-      path: '/editor/:id',
+      path: '/editor',
       name: 'Editor',
+      component: () => import('../views/Editor.vue'),
+    },
+    {
+      path: '/editor/:id',
+      name: 'EditorEdit',
       component: () => import('../views/Editor.vue'),
     },
     {
