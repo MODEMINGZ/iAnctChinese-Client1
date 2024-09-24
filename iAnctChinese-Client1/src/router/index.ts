@@ -59,6 +59,8 @@ router.beforeEach((to, from, next) => {
   const store = userInfoStore()
   let isLogin = store.isLogin
   if (to.name !== 'Login' && to.name !== 'Register' && !isLogin && to.name !== 'About' && to.name !== 'Home') {
+    //储存跳转状态
+    sessionStorage.setItem('redirect', from.path);
     next({ name: 'Login' })
   } else if (to.name == 'Login' && isLogin) {
     next({ name: 'Home' })
