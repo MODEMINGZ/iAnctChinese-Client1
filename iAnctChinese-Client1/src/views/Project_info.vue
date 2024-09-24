@@ -9,6 +9,9 @@
                     <span class="head-text">当前项目：{{ project_data.name }}</span>
                 </div>
                 <div class="right-head">
+                    <el-button type="success" class="h-btn" :icon="UploadFilled">导入文档</el-button>
+                    <el-button type="info" class="h-btn" :icon="Histogram"
+                        :disabled="multipleSelection.length === 0">导出文档</el-button>
                     <el-button type="primary" class="h-btn" :icon="FolderAdd"
                         @click="dialogFormVisible = true">新建文档</el-button>
                     <el-button type="danger" :icon="Delete" class="h-btn" :disabled="multipleSelection.length === 0"
@@ -58,12 +61,6 @@
     </el-dialog>
     <el-dialog v-model="e_dialogFormVisible" title="编辑文档信息" width="600">
         <el-form :model="e_form">
-            <el-form-item label="所属项目ID" :label-width="formLabelWidth">
-                <el-input v-model="e_form.proId" autocomplete="off" disabled />
-            </el-form-item>
-            <el-form-item label="所属项目名称" :label-width="formLabelWidth">
-                <el-input v-model="e_form.proName" autocomplete="off" disabled />
-            </el-form-item>
             <el-form-item label="文档ID" :label-width="formLabelWidth">
                 <el-input v-model="e_form.docId" autocomplete="off" disabled />
             </el-form-item>
@@ -79,6 +76,15 @@
             </el-form-item>
             <el-form-item label="文档更新时间" :label-width="formLabelWidth">
                 <el-input :value="e_form.update_time" disabled /> <!-- 禁用更新时间输入框 -->
+            </el-form-item>
+            <el-form-item label="所属项目ID" :label-width="formLabelWidth">
+                <el-input v-model="e_form.proId" autocomplete="off" disabled />
+            </el-form-item>
+            <el-form-item label="所属项目名称" :label-width="formLabelWidth">
+                <el-input v-model="e_form.proName" autocomplete="off" disabled />
+            </el-form-item>
+            <el-form-item label="所属项目描述" :label-width="formLabelWidth">
+                <el-input v-model="e_form.proDiscription" autocomplete="off" disabled />
             </el-form-item>
         </el-form>
         <template #footer>
@@ -98,7 +104,9 @@ import dayjs from 'dayjs'
 import {
     FolderAdd,
     FolderOpened,
-    Delete
+    Delete,
+    UploadFilled,
+    Histogram
 } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 const route = useRoute()
@@ -107,7 +115,7 @@ const router = useRouter()
 const openRow = (index: number) => {
     const item = tableData.value[index];
     const m_id = parseInt(item.docId)
-    router.push(`/document/${m_id}`);
+    router.push(`/editor/${m_id}`);
 }
 
 //编辑文档
@@ -124,6 +132,7 @@ const editRow = (index: number) => {
     e_form.create_time = item.create_time;
     e_form.update_time = item.update_time;
     e_dialogFormVisible.value = true;
+    e_form.proDiscription = project_data.value.discription;
 };
 
 const editForm = () => {
@@ -203,6 +212,7 @@ const e_form = reactive({
     discription: '',
     create_time: '',
     update_time: '',
+    proDiscription: ''
 })
 //增加文档
 const createForm = () => {
@@ -237,9 +247,6 @@ const createForm_cancle = () => {
     form.name = ''
     form.discription = ''
 }
-
-//储存
-const curProId = route.params.id
 
 //表单【等后端】
 const now = new Date()

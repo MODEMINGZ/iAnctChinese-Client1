@@ -27,12 +27,7 @@ const router = createRouter({
       component: () => import('../views/Project_info.vue'),
     },
     {
-      path: '/document/:id',
-      name: 'Document',
-      component: () => import('../views/Document.vue'),
-    },
-    {
-      path: '/editor',
+      path: '/editor/:id',
       name: 'Editor',
       component: () => import('../views/Editor.vue'),
     },

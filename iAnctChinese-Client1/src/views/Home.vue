@@ -52,7 +52,7 @@
         </el-carousel>
         <div class="btnbox">
             <el-button type="primary" class="btn" @click="goStart">开始使用</el-button>
-            <el-button class="btn">帮助</el-button>
+            <el-button class="btn" @click="goAbout">更多信息</el-button>
         </div>
 
     </div>
