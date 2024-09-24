@@ -16,19 +16,19 @@
                 </el-icon>
                 <span class="menu-bar">首页</span>
             </el-menu-item>
-            <el-menu-item index="3" @click="navigateTo('/project')">
+            <el-menu-item index="3" @click="navigateTo('/project')" class="bar" :disabled="!store.isLogin">
                 <el-icon>
                     <FolderOpened />
                 </el-icon>
                 <span>项目管理</span>
             </el-menu-item>
-            <el-menu-item index="5" @click="navigateTo('/editor')" class="bar">
+            <!-- <el-menu-item index="5" @click="navigateTo('/editor')" class="bar">
                 <el-icon>
                     <Edit />
                 </el-icon>
                 <span>工作台</span>
-            </el-menu-item>
-            <el-menu-item index="6" @click="navigateTo('/user')" disabled>
+            </el-menu-item> -->
+            <el-menu-item index="6" @click="navigateTo('/user')" class="bar" :disabled="!store.isLogin">
                 <el-icon>
                     <UserFilled />
                 </el-icon>
@@ -52,18 +52,26 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { useRoute, useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import {
     HomeFilled,
-    Edit,
     FolderOpened,
     ArrowLeftBold, ArrowRightBold,
     InfoFilled,
     UserFilled
 } from '@element-plus/icons-vue'
-
+import { userInfoStore } from '@/stores/user'
+const store = userInfoStore()
 const route = useRoute()
 const router = useRouter()
+//login
+console.log(store.isLogin);
+//editor/:id
+watchEffect(() => {
+    if (route.path.startsWith('/editor/')) {
+        isCollapse.value = true
+    }
+})
 
 // 处理菜单
 const isCollapse = ref(false);
@@ -80,8 +88,8 @@ const getActiveIndex = () => {
             return '2';
         case '/project':
             return '3';
-        case '/editor':
-            return '5';
+        // case '/editor':
+        //     return '5';
         case '/user':
             return '6';
         case '/about':

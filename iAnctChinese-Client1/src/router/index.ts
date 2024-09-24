@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { userInfoStore } from '../stores/user'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,6 +12,15 @@ const router = createRouter({
     {
       path: '/',
       redirect: '/home'
+    }, {
+      path: '/login',
+      name: 'Login',
+      component: () => import('../views/Login.vue'),
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: () => import('../views/Register.vue'),
     },
     {
       path: '/about',
@@ -34,7 +44,7 @@ const router = createRouter({
     {
       path: '/editor/:id',
       name: 'EditorEdit',
-      component: () => import('../views/Editor.vue'),
+      component: () => import('../views/EditorEdit.vue'),
     },
     {
       path: '/user',
@@ -42,6 +52,19 @@ const router = createRouter({
       component: () => import('../views/User.vue'),
     }
   ]
+})
+
+//前置守卫路由
+router.beforeEach((to, from, next) => {
+  const store = userInfoStore()
+  let isLogin = store.isLogin
+  if (to.name !== 'Login' && to.name !== 'Register' && !isLogin && to.name !== 'About' && to.name !== 'Home') {
+    next({ name: 'Login' })
+  } else if (to.name == 'Login' && isLogin) {
+    next({ name: 'Home' })
+  } else {
+    next()
+  }
 })
 
 export default router
