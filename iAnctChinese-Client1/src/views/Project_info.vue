@@ -115,7 +115,7 @@ const router = useRouter()
 const openRow = (index: number) => {
     const item = tableData.value[index];
     const m_id = parseInt(item.docId)
-    router.push(`/editor/${m_id}`);
+    router.push(`/editor/${m_id}/structure`);
 }
 
 //编辑文档
