@@ -34,11 +34,9 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import { useRoute, useRouter } from 'vue-router'
 import myInput from '../../components/myInput.vue'
 import { ref, reactive } from 'vue'
-import dayjs from 'dayjs'
 import {
     Share
 } from '@element-plus/icons-vue'

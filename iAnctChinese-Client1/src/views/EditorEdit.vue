@@ -7,6 +7,7 @@
                 <el-menu-item index="3" @click="navigateTo('entity')">实体标注</el-menu-item>
                 <el-menu-item index="4" @click="navigateTo('relation')">关系标注</el-menu-item>
                 <el-menu-item index="5" @click="navigateTo('knowledgeGraph')">知识图谱</el-menu-item>
+                <el-menu-item index="7">上传文件</el-menu-item>
                 <el-menu-item index="6">导出数据</el-menu-item>
             </el-menu>
         </div>
@@ -114,6 +115,12 @@ const doc_data = ref({
 </script>
 
 <style scoped>
+.logo-item {
+    font-weight: bold;
+    /* pointer-events: none; */
+    font-size: 16px;
+}
+
 .part-main {
     height: calc(100% - 60px);
     margin: 10px;

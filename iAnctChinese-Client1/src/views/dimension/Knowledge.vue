@@ -26,6 +26,12 @@
 
     <div class="editor-part">
         <div class="part-header">
+            <div class="part-header-text">
+                <el-icon class="part-header-icon">
+                    <Share />
+                </el-icon>
+                知识图谱
+            </div>
         </div>
         <div class="part-main">
         </div>
