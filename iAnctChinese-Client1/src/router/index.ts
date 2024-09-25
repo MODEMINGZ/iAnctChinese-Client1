@@ -37,11 +37,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Project_info.vue'),
   },
   {
-    path: '/editor',
-    name: 'editor',
-    component: () => import('../views/Editor.vue'),
-  },
-  {
     path: '/editor/:id',
     name: 'editoredit',
     component: () => import('../views/EditorEdit.vue'),

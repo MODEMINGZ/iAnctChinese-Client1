@@ -1,13 +1,13 @@
 <template>
     <div class="container">
         <div class="header">
-            <el-menu :default-active="getActiveIndex()" mode="horizontal">
+            <el-menu :default-active="getActiveIndex()" mode="horizontal" class="el-menu-demo">
                 <el-menu-item index="1" class="logo-item">iAnctChinese-古汉语智能标注平台</el-menu-item>
-                <el-menu-item index="2" @click="navigateTo('/structure')">结构标注</el-menu-item>
-                <el-menu-item index="3" @click="navigateTo(structure)">实体标注</el-menu-item>
-                <el-menu-item index="4" @click="navigateTo(structure)">关系标注</el-menu-item>
-                <el-menu-item index="5" @click="navigateTo(structure)">知识图谱</el-menu-item>
-                <el-menu-item index="6" @click="navigateTo(structure)">导出数据</el-menu-item>
+                <el-menu-item index="2" @click="navigateTo('structure')">结构标注</el-menu-item>
+                <el-menu-item index="3" @click="navigateTo('entity')">实体标注</el-menu-item>
+                <el-menu-item index="4" @click="navigateTo('relation')">关系标注</el-menu-item>
+                <el-menu-item index="5" @click="navigateTo('knowledgeGraph')">知识图谱</el-menu-item>
+                <el-menu-item index="6">导出数据</el-menu-item>
             </el-menu>
         </div>
         <div class="content">
@@ -74,10 +74,7 @@ const route = useRoute()
 const router = useRouter()
 //导航路由
 const navigateTo = (path: string) => {
-    console.log(path)
-    // router.push(`${router.currentRoute.value.path}${path}`).catch((err) => {
-    //     console.log(err)
-    // })
+    router.push({ path: `/editor/${route.params.id}/${path}` })
 };
 const getActiveIndex = () => {
     const { path } = router.currentRoute.value;
@@ -112,7 +109,7 @@ const doc_data = ref({
     doc_name: 'Tom‘s doc',
     doc_update_time: '2024-11-25 20:50',
     doc_discription: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
-    doc_content: ''
+    doc_text: ''
 })
 </script>
 
@@ -168,6 +165,7 @@ const doc_data = ref({
     width: 200px;
     height: 100%;
     margin-right: 5px;
+    padding-bottom: 5px;
 }
 
 .content {
